@@ -35,8 +35,30 @@ const getProductById = (id, callback) => {
   });
 }
 
+const updateProductById = (productId, UpdatedProduct) => {
+  getProductsFromFile(products => {
+    const index = products.findIndex(product => product.id.toString() === productId);
+    products[index] = UpdatedProduct;
+    fs.writeFile(productPath, JSON.stringify(products), error => {
+      console.log(error);
+    });
+  });
+}
+
+const deleteProductById = (productId) => {
+  getProductsFromFile(products => {
+    const index = products.findIndex(product => product.id.toString() === productId);
+    products.splice(index, 1);
+    fs.writeFile(productPath, JSON.stringify(products), error => {
+      console.log(error);
+    });
+  });
+}
+
 module.exports = {
   saveProducts,
   fetchAllProducts,
-  getProductById 
+  getProductById,
+  updateProductById,
+  deleteProductById
 }   
